@@ -1,0 +1,18 @@
+# Python
+venv/
+__pycache__/
+*.pyc
+*.pyo
+
+# Node
+frontend/node_modules/
+frontend/build/
+npm-debug.log*
+
+# Local tooling / backups
+kubectl
+kubectl.sha256
+*.backup
+
+# Editor/OS
+.DS_Store

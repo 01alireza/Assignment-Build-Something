@@ -24,7 +24,9 @@ function LoginForm({ onLogin }) {
       localStorage.setItem('username', username);
       onLogin({ username, token });
     } catch (err) {
-      setError(isRegistering ? 'Registration failed' : 'Login failed');
+      const message = err.response?.data?.error
+        || (isRegistering ? 'Registration failed' : 'Login failed');
+      setError(message);
       console.error(err);
     }
   };

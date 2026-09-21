@@ -1,55 +1,55 @@
 services:
-	postgres:
-		image: postgres:16-alpine
-		environment:
-			POSTGRES_DB: tasksdb
-			POSTGRES_USER: postgres
-			POSTGRES_PASSWORD: password
-		volumes:
-			- postgres-data:/var/lib/postgresql/data
-		healthcheck:
-			test: ["CMD-SHELL", "pg_isready -U postgres -d tasksdb"]
-			interval: 5s
-			timeout: 5s
-			retries: 10
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: tasksdb
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d tasksdb"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
 
-	user-service:
-		build: ./user-service
-		environment:
-			DB_HOST: postgres
-			DB_PORT: 5432
-			DB_USER: postgres
-			DB_PASSWORD: password
-			DB_NAME: tasksdb
-			SECRET_KEY: local-development-secret-change-me
-		depends_on:
-			postgres:
-				condition: service_healthy
-		ports:
-			- "5001:5001"
+  user-service:
+    build: ./user-service
+    environment:
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_USER: postgres
+      DB_PASSWORD: password
+      DB_NAME: tasksdb
+      SECRET_KEY: local-development-secret-change-me
+    depends_on:
+      postgres:
+        condition: service_healthy
+    ports:
+      - "5001:5001"
 
-	task-service:
-		build: ./task-service
-		environment:
-			DB_HOST: postgres
-			DB_PORT: 5432
-			DB_USER: postgres
-			DB_PASSWORD: password
-			DB_NAME: tasksdb
-			SECRET_KEY: local-development-secret-change-me
-		depends_on:
-			postgres:
-				condition: service_healthy
-		ports:
-			- "5000:5000"
+  task-service:
+    build: ./task-service
+    environment:
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_USER: postgres
+      DB_PASSWORD: password
+      DB_NAME: tasksdb
+      SECRET_KEY: local-development-secret-change-me
+    depends_on:
+      postgres:
+        condition: service_healthy
+    ports:
+      - "5000:5000"
 
-	frontend:
-		build: ./frontend
-		depends_on:
-			- user-service
-			- task-service
-		ports:
-			- "8080:80"
+  frontend:
+    build: ./frontend
+    depends_on:
+      - user-service
+      - task-service
+    ports:
+      - "8080:80"
 
 volumes:
-	postgres-data:
+  postgres-data:
