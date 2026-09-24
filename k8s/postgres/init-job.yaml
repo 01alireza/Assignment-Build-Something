@@ -1,42 +1,42 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-	name: postgres-schema-check
-	namespace: task-manager
+  name: postgres-schema-check
+  namespace: task-manager
 spec:
-	backoffLimit: 6
-	template:
-		spec:
-			restartPolicy: OnFailure
-			containers:
-				- name: schema-check
-					image: postgres:16-alpine
-					env:
-						- name: PGHOST
-							valueFrom:
-								configMapKeyRef:
-									name: task-manager-config
-									key: DB_HOST
-						- name: PGPORT
-							valueFrom:
-								configMapKeyRef:
-									name: task-manager-config
-									key: DB_PORT
-						- name: PGDATABASE
-							valueFrom:
-								configMapKeyRef:
-									name: task-manager-config
-									key: DB_NAME
-						- name: PGUSER
-							valueFrom:
-								secretKeyRef:
-									name: task-manager-secrets
-									key: DB_USER
-						- name: PGPASSWORD
-							valueFrom:
-								secretKeyRef:
-									name: task-manager-secrets
-									key: DB_PASSWORD
-					command: ["sh", "-c"]
-					args:
-						- until pg_isready; do sleep 2; done; echo 'PostgreSQL is ready; application containers create their tables idempotently.'
+  backoffLimit: 6
+  template:
+    spec:
+      restartPolicy: OnFailure
+      containers:
+        - name: schema-check
+          image: postgres:16-alpine
+          env:
+            - name: PGHOST
+              valueFrom:
+                configMapKeyRef:
+                  name: task-manager-config
+                  key: DB_HOST
+            - name: PGPORT
+              valueFrom:
+                configMapKeyRef:
+                  name: task-manager-config
+                  key: DB_PORT
+            - name: PGDATABASE
+              valueFrom:
+                configMapKeyRef:
+                  name: task-manager-config
+                  key: DB_NAME
+            - name: PGUSER
+              valueFrom:
+                secretKeyRef:
+                  name: task-manager-secrets
+                  key: DB_USER
+            - name: PGPASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: task-manager-secrets
+                  key: DB_PASSWORD
+          command: ["sh", "-c"]
+          args:
+            - until pg_isready; do sleep 2; done; echo 'PostgreSQL is ready; application containers create their tables idempotently.'

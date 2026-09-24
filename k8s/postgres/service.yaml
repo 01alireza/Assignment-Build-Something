@@ -1,12 +1,12 @@
 apiVersion: v1
 kind: Service
 metadata:
-	name: postgres
-	namespace: task-manager
+  name: postgres
+  namespace: task-manager
 spec:
-	selector:
-		app: postgres
-	ports:
-		- name: postgres
-			port: 5432
-			targetPort: 5432
+  selector:
+    app: postgres
+  ports:
+    - name: postgres
+      port: 5432
+      targetPort: 5432

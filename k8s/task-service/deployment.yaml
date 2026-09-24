@@ -1,44 +1,44 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-	name: task-service
-	namespace: task-manager
+  name: task-service
+  namespace: task-manager
 spec:
-	replicas: 2
-	selector:
-		matchLabels:
-			app: task-service
-	template:
-		metadata:
-			labels:
-				app: task-service
-		spec:
-			containers:
-				- name: task-service
-					image: docker.io/01alireza/task-manager-task-service:1.0.0
-					ports:
-						- containerPort: 5000
-					resources:
-						requests:
-							cpu: 100m
-							memory: 128Mi
-						limits:
-							cpu: 500m
-							memory: 512Mi
-					envFrom:
-						- configMapRef:
-								name: task-manager-config
-						- secretRef:
-								name: task-manager-secrets
-					readinessProbe:
-						httpGet:
-							path: /health
-							port: 5000
-						initialDelaySeconds: 10
-						periodSeconds: 10
-					livenessProbe:
-						httpGet:
-							path: /health
-							port: 5000
-						initialDelaySeconds: 20
-						periodSeconds: 20
+  replicas: 2
+  selector:
+    matchLabels:
+      app: task-service
+  template:
+    metadata:
+      labels:
+        app: task-service
+    spec:
+      containers:
+        - name: task-service
+          image: docker.io/01alireza/task-manager-task-service:1.0.0
+          ports:
+            - containerPort: 5000
+          resources:
+            requests:
+              cpu: 100m
+              memory: 128Mi
+            limits:
+              cpu: 500m
+              memory: 512Mi
+          envFrom:
+            - configMapRef:
+                name: task-manager-config
+            - secretRef:
+                name: task-manager-secrets
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 5000
+            initialDelaySeconds: 10
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 5000
+            initialDelaySeconds: 20
+            periodSeconds: 20

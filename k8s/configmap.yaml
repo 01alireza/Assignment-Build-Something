@@ -1,9 +1,9 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-	name: task-manager-config
-	namespace: task-manager
+  name: task-manager-config
+  namespace: task-manager
 data:
-	DB_HOST: postgres
-	DB_PORT: "5432"
-	DB_NAME: tasksdb
+  DB_HOST: postgres
+  DB_PORT: "5432"
+  DB_NAME: tasksdb
