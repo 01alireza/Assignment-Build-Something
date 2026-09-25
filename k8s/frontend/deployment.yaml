@@ -16,6 +16,7 @@ spec:
       containers:
         - name: frontend
           image: docker.io/01alireza/task-manager-frontend:1.0.0
+          imagePullPolicy: Always
           ports:
             - containerPort: 80
           resources:

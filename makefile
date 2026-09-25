@@ -7,6 +7,7 @@ help:
 	@echo "  make build"
 	@echo "  make up"
 	@echo "  make down"
+	@echo "  make docker-push"
 	@echo "  make kind-create"
 	@echo "  make metrics-install"
 	@echo "  make k8s-apply"
@@ -15,6 +16,7 @@ help:
 	@echo "  make k8s-logs"
 	@echo "  make k8s-stop"
 	@echo "  make k8s-down"
+
 
 build:
 	docker-compose build
