@@ -206,7 +206,7 @@ The database is intentionally not horizontally scaled, because the assignment ex
 
 ## 9. Video Walkthrough
 
-A short 5-10 minute demonstration video should be recorded and submitted. The video should show:
+Thia assignment requried a short 5-10 minute demonstration video should be recorded and submitted. The video should show:
 
 1. A short introduction to the app and architecture.
 2. The separate microservices and what each one does.
