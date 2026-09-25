@@ -8,6 +8,7 @@ import api from './api/client';
 function App() {
   const [user, setUser] = useState(null);
   const [tasks, setTasks] = useState([]);
+  const [editingTask, setEditingTask] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
@@ -49,6 +50,7 @@ function App() {
     localStorage.removeItem('username');
     setUser(null);
     setTasks([]);
+    setEditingTask(null);
   };
 
   const handleAddTask = async (taskData) => {
@@ -57,6 +59,19 @@ function App() {
       setTasks([...tasks, response.data]);
     } catch (err) {
       setError('Failed to add task');
+      console.error(err);
+    }
+  };
+
+  const handleUpdateTask = async (taskData) => {
+    try {
+      const response = await api.put(`/api/tasks/${editingTask.id}`, taskData);
+      setTasks(currentTasks => currentTasks.map(task => (
+        task.id === editingTask.id ? response.data : task
+      )));
+      setEditingTask(null);
+    } catch (err) {
+      setError('Failed to update task');
       console.error(err);
     }
   };
@@ -84,8 +99,13 @@ function App() {
       <Navbar user={user} onLogout={handleLogout} />
 
       <div className="card">
-        <h2>Add New Task</h2>
-        <TaskForm onSubmit={handleAddTask} />
+        <h2>{editingTask ? 'Edit Task' : 'Add New Task'}</h2>
+        <TaskForm
+          onSubmit={editingTask ? handleUpdateTask : handleAddTask}
+          initialTask={editingTask}
+          submitLabel={editingTask ? 'Save Changes' : 'Add Task'}
+          onCancel={editingTask ? () => setEditingTask(null) : undefined}
+        />
       </div>
 
       <div className="card">
@@ -94,7 +114,11 @@ function App() {
         {loading ? (
           <div className="loading">Loading tasks...</div>
         ) : (
-          <TaskList tasks={tasks} onDelete={handleDeleteTask} />
+          <TaskList
+            tasks={tasks}
+            onDelete={handleDeleteTask}
+            onEdit={setEditingTask}
+          />
         )}
       </div>
     </div>

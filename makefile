@@ -1,3 +1,5 @@
+PATH := $(HOME)/.local/bin:$(PATH)
+
 .PHONY: help build up down k8s-apply k8s-status k8s-forward k8s-stop k8s-down kind-create metrics-install docker-push k8s-logs
 
 help:

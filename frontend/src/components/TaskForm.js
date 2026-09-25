@@ -1,16 +1,23 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
-function TaskForm({ onSubmit }) {
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
+function TaskForm({ onSubmit, initialTask = null, submitLabel = 'Add Task', onCancel }) {
+  const [title, setTitle] = useState(initialTask?.title || '');
+  const [description, setDescription] = useState(initialTask?.description || '');
+
+  useEffect(() => {
+    setTitle(initialTask?.title || '');
+    setDescription(initialTask?.description || '');
+  }, [initialTask]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!title.trim()) return;
 
-    onSubmit({ title, description });
-    setTitle('');
-    setDescription('');
+    onSubmit({ title: title.trim(), description });
+    if (!initialTask) {
+      setTitle('');
+      setDescription('');
+    }
   };
 
   return (
@@ -34,7 +41,12 @@ function TaskForm({ onSubmit }) {
           rows="3"
         />
       </div>
-      <button type="submit" className="btn btn-success">Add Task</button>
+      <button type="submit" className="btn btn-success">{submitLabel}</button>
+      {onCancel && (
+        <button type="button" className="btn btn-secondary" onClick={onCancel}>
+          Cancel
+        </button>
+      )}
     </form>
   );
 }
