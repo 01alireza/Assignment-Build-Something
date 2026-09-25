@@ -127,7 +127,7 @@ This repository is the configuration management repository for both the applicat
 Requirements: Docker and Docker Compose.
 
 ```bash
-docker compose up --build
+docker-compose up --build
 ```
 
 Then open:
